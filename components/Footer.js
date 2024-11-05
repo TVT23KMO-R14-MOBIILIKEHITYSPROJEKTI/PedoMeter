@@ -1,8 +1,8 @@
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-export default function Footer() {
+export default function Footer({ onContentPress }) {
 
     return (
       <View style={styles.footerContent}>
@@ -17,10 +17,12 @@ export default function Footer() {
         <View style={styles.circleIconContainer}>
           <Icon name="add-circle" size={70} color="#613EEA" style={styles.circleIcon} />
         </View>
-        <View style={styles.iconContainer}>
-          <Icon name="sunny" size={30} color="#9DB2CE" style={styles.footerIcons} />
-          <Text style={styles.iconText}>Sää</Text>
-        </View>
+        <TouchableOpacity onPress={() => onContentPress('weather')}>
+          <View style={styles.iconContainer}>
+            <Icon name="sunny" size={30} color="#9DB2CE" style={styles.footerIcons} />
+            <Text style={styles.iconText}>Sää</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.iconContainer}>
           <Icon name="person" size={30} color="#9DB2CE" style={styles.footerIcons} />
           <Text style={styles.iconText}>Asetukset</Text>

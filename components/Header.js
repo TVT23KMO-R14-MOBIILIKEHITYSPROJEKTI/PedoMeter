@@ -1,15 +1,17 @@
-import { Text, StyleSheet, View, Image } from 'react-native'
+import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useTheme } from 'react-native-paper'
 
-export default function Header() {
+export default function Header({ onContentPress }) {
 
   const theme = useTheme()
 
   return (
     <View style={[styles.headerContent, { backgroundColor: theme.colors.primary }]} >
-      <Icon name="menu" size={30} style={[styles.footerIcon, { color: theme.colors.tertiary }]} />
+      <TouchableOpacity onPress={() => onContentPress('home')}>
+        <Icon name="home" size={30} style={[styles.footerIcon, { color: theme.colors.tertiary }]} />
+      </TouchableOpacity>
       <Text style={[styles.headerText, { color: theme.colors.tertiary }]}>Pakkauslistat</Text>
       <Text></Text>
     </View>

@@ -3,19 +3,26 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
+
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Header from './components/Header'
-import Footer from './components/Footer';
+import Footer from './components/Footer'
+import Weather from './components/Weather'
 import useTheme from './hooks/Theme'
 
 export default function App() {
 
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [currentContent, setCurrentContent] = useState('home');
 
   const theme = useTheme(isDarkTheme);
 
   const toggleTheme = () => {
     setIsDarkTheme(prevTheme => !prevTheme);
+  };
+
+  const showContent = (content) => {
+    setCurrentContent(content)
   };
 
   return (
@@ -24,16 +31,22 @@ export default function App() {
         <SafeAreaView style={styles.safeArea}>
           <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
-            <Header style={styles.header} />
+            <Header onContentPress={showContent} style={styles.header} />
 
             <View style={[styles.content, { backgroundColor: theme.colors.primary }]}>
-              <Text>Open up App.js to start working on your app!</Text>
-              <TouchableOpacity onPress={toggleTheme}>
-                <Icon name="dark-mode" size={30} color={theme.colors.toggleButtonColor} />
-              </TouchableOpacity>
+              {currentContent === 'home' && (
+                <>
+                  <Text>Open up App.js to start working on your app!</Text>
+                  <TouchableOpacity onPress={toggleTheme}>
+                    <Icon name="dark-mode" size={30} color={theme.colors.toggleButtonColor} />
+                  </TouchableOpacity>
+                </>
+              )}
+              {currentContent === 'weather' && <Weather />}
+              
             </View>
 
-            <Footer style={styles.footer} />
+            <Footer onContentPress={showContent} style={styles.footer} />
 
           </View>
         </SafeAreaView>
