@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Home from './components/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Weather from './components/Weather'
@@ -13,45 +16,34 @@ import useTheme from './hooks/Theme'
 export default function App() {
 
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const [currentContent, setCurrentContent] = useState('home');
 
   const theme = useTheme(isDarkTheme);
 
-  const toggleTheme = () => {
-    setIsDarkTheme(prevTheme => !prevTheme);
-  };
-
-  const showContent = (content) => {
-    setCurrentContent(content)
-  };
+  const Stack = createStackNavigator();
 
   return (
-    <SafeAreaProvider>
+    <NavigationContainer>
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.safeArea}>
-          <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
-            <Header onContentPress={showContent} style={styles.header} />
 
-            <View style={[styles.content, { backgroundColor: theme.colors.primary }]}>
-              {currentContent === 'home' && (
-                <>
-                  <Text>Open up App.js to start working on your app!</Text>
-                  <TouchableOpacity onPress={toggleTheme}>
-                    <Icon name="dark-mode" size={30} color={theme.colors.toggleButtonColor} />
-                  </TouchableOpacity>
-                </>
-              )}
-              {currentContent === 'weather' && <Weather />}
-              
-            </View>
 
-            <Footer onContentPress={showContent} style={styles.footer} />
 
-          </View>
+          <Stack.Navigator initialRouteName='Home' screenOptions={{
+            headerStyle: { height: 70 },
+            headerTitleAlign: 'center',
+            headerTitleStyle: { color: theme.colors.tertiary, flex: 1 },
+          }}>
+            <Stack.Screen style={styles.screen} name="Home" component={Home}/>
+            <Stack.Screen style={styles.screen} name="Weather" component={Weather}/>
+          </Stack.Navigator>
+
+
+          <Footer style={styles.footer} />
+
         </SafeAreaView>
       </PaperProvider>
-    </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
 
@@ -64,9 +56,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  header: {
-    height: 50,
-  },
   content: {
     flex: 1,
     justifyContent: 'center',
@@ -78,4 +67,12 @@ const styles = StyleSheet.create({
   footer: {
     height: 50,
   },
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    margin: 10,
+    backgroundColor:'#fffff'
+  }
 });

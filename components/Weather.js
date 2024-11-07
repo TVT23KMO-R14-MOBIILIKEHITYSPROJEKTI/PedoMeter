@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'react-native-paper'
 
-export default function Weather() {
+export default function Weather({ navigation }) {
     const [weatherData, setWeatherData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)

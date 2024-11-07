@@ -1,8 +1,11 @@
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useNavigation } from '@react-navigation/native';
 
-export default function Footer({ onContentPress }) {
+export default function Footer() {
+  
+    const navigation = useNavigation()
 
     return (
       <View style={styles.footerContent}>
@@ -17,7 +20,7 @@ export default function Footer({ onContentPress }) {
         <View style={styles.circleIconContainer}>
           <Icon name="add-circle" size={70} color="#613EEA" style={styles.circleIcon} />
         </View>
-        <TouchableOpacity onPress={() => onContentPress('weather')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Weather")}>
           <View style={styles.iconContainer}>
             <Icon name="sunny" size={30} color="#9DB2CE" style={styles.footerIcons} />
             <Text style={styles.iconText}>Sää</Text>
