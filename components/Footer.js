@@ -2,13 +2,16 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'react-native-paper'
 
 export default function Footer() {
+
+  const theme = useTheme()
   
     const navigation = useNavigation()
 
     return (
-      <View style={styles.footerContent}>
+      <View style={[styles.footerContent, { backgroundColor: theme.colors.primary }]}>
         <View style={styles.iconContainer}>
           <Icon name="filter-list" size={30} color="#9DB2CE" style={styles.footerIcons} />
           <Text style={styles.iconText}>Listat</Text>

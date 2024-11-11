@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper';
 
-export default function Homescreen() {
-  const theme = useTheme()
 
-  const toggleTheme = () => {
-    setIsDarkTheme(prevTheme => !prevTheme);
-  };
+export default function Homescreen({ toggleTheme }) {
 
+  const theme = useTheme();
+  
   return (
       
         <View style={[styles.content, { backgroundColor: theme.colors.primary }]}>
@@ -27,5 +25,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 20,
+    padding: 20,
+    margin: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
 });
