@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 let app, firestore
 if (!FIREBASE_API_KEY) {
-  console.error("Firebase API key is missing. Add it to your .env file.")
+  console.log("Firebase API key is missing. Add it to your .env file.")
 } else {
   try {
     app = initializeApp(firebaseConfig)
@@ -32,7 +32,7 @@ if (!FIREBASE_API_KEY) {
 
 let auth
 if (!app) {
-  console.error("Firebase app not initialized. Check your Firebase configuration.")
+  console.log("Firebase app not initialized. Check your Firebase configuration.")
 } else {
   auth = initializeAuth(app, { persistence: getReactNativePersistence() })
 }

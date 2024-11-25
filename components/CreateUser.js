@@ -23,6 +23,13 @@ const createUser = async (setLoadingMessage, retry = 0) => {
 
     try {
         console.log('Trying to create user')
+        if (!auth) {
+            console.log('Auth not found')
+            setLoadingMessage('Error creating user, auth not found')
+            await AsyncStorage.removeItem('userEmail')
+            await AsyncStorage.removeItem('userPassword')
+            return false
+        }
         await createUserWithEmailAndPassword(auth, email, password)
         console.log('User created')
         return true

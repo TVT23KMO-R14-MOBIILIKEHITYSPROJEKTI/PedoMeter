@@ -16,7 +16,8 @@ const CheckCredentials = ({ setLogged }) => {
             try {
                 let email = await AsyncStorage.getItem('userEmail')
                 let password = await AsyncStorage.getItem('userPassword')
-                
+                console.log('email1:', email)
+                console.log('password1:', password)
                 if (!email || !password) {
                     console.log('Creating new user, CheckCredentials.js')
                     const result = await createUser(setLoadingMessage)
