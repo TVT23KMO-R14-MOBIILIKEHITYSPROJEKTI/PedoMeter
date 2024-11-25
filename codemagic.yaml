@@ -76,7 +76,7 @@ workflows:
       - name: Debugging environment
         script: |    
           echo "Display env file"
-          echo $CM_BUILD_DIR/.env
+          cat $CM_BUILD_DIR/.env
           echo "Displaying key.properties contents:"
           cat "$FCI_BUILD_DIR/android/key.properties" || echo "Error: Unable to display key.properties"
           echo "Listing contents of /tmp directory:"
