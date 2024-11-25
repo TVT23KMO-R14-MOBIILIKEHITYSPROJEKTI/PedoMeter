@@ -11,22 +11,31 @@ const firebaseConfig = {
   storageBucket: FIREBASE_STORAGE_BUCKET,
   messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
   appId: FIREBASE_APP_ID
-} 
+}
 
 let app, firestore
-try {
-  app = initializeApp(firebaseConfig)
-  firestore = getFirestore(app)
-} catch (error) {
-  console.error("Firebase initialization error:", error)
-  if (error.code === 'app/invalid-configuration') {
-    console.error("Invalid Firebase configuration. Check your API key and project settings.")
-  } else {
-    console.error("An unknown error occurred during Firebase initialization.")
+if (!FIREBASE_API_KEY) {
+  console.error("Firebase API key is missing. Add it to your .env file.")
+} else {
+  try {
+    app = initializeApp(firebaseConfig)
+    firestore = getFirestore(app)
+  } catch (error) {
+    console.error("Firebase initialization error:", error)
+    if (error.code === 'app/invalid-configuration') {
+      console.error("Invalid Firebase configuration. Check your API key and project settings.")
+    } else {
+      console.error("An unknown error occurred during Firebase initialization.")
+    }
   }
 }
 
-const auth = initializeAuth(app, { persistence: getReactNativePersistence() })
+let auth
+if (!app) {
+  console.error("Firebase app not initialized. Check your Firebase configuration.")
+} else {
+  auth = initializeAuth(app, { persistence: getReactNativePersistence() })
+}
 
 const addList = async (userId, listData) => {
   try {
