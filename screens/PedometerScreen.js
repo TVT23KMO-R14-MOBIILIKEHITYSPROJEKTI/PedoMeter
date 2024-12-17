@@ -1,75 +1,78 @@
-
-
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { Pedometer } from 'expo-sensors';
 
-export default function PedometerScreen() {
-
+export default function SimplePedometer() {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState('checking');
-  const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
+  const pedometerSubscription = useRef(null);
 
-  const subscribe = async () => {
-    const isAvailable = await Pedometer.isAvailableAsync();
-    setIsPedometerAvailable(String(isAvailable));
+  useEffect(() => {
+    // Request permission for Pedometer on mount
+    Pedometer.requestPermissionsAsync();
+  }, []);
 
-    if (isAvailable) {
-      const end = new Date();
-      const start = new Date();
-      start.setDate(end.getDate() - 1);
+  const startCounting = async () => {
+    // Reset step count to zero before starting
+    setCurrentStepCount(0);
 
-      const pastStepCountResult = await Pedometer.getStepCountAsync(start, end);
-      if (pastStepCountResult) {
-        setPastStepCount(pastStepCountResult.steps);
-      }
+    // Check if the device supports pedometer
+    const available = await Pedometer.isAvailableAsync();
+    setIsPedometerAvailable(String(available));
 
-      return Pedometer.watchStepCount(result => {
-        setCurrentStepCount(result.steps);
+    if (available) {
+      // Subscribe to pedometer updates; each update adds to current step count
+      pedometerSubscription.current = Pedometer.watchStepCount(result => {
+        setCurrentStepCount(prevCount => prevCount + result.steps);
       });
     }
   };
 
-  useEffect(() => {
-    const subscription = subscribe();
-    return () => subscription && subscription.remove();
-  }, []);
-
+  const stopCounting = () => {
+    // Unsubscribe from the Pedometer
+    if (pedometerSubscription.current) {
+      pedometerSubscription.current.remove();
+      pedometerSubscription.current = null;
+    }
+  };
 
   return (
-    <View style={[styles.content]}>
-      <View style={[styles.component]}>
-      <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
-      <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
-      <Text>Walk! And watch this go up: {currentStepCount}</Text>
+    <View style={styles.container}>
+      <Text style={styles.statusText}>
+        Pedometer is available: {isPedometerAvailable}
+      </Text>
+      <Text style={styles.stepCount}>
+        Steps: {currentStepCount}
+      </Text>
+
+      <View style={styles.buttonRow}>
+        <Button title="Start" onPress={startCounting} />
+        <Button title="Stop" onPress={stopCounting} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
     padding: 20,
   },
-  component: {
-    borderRadius: 10,
-    width: '100%',
-    padding: 20,
-    backgroundColor: '#d1e8e2',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-  toptext: {
-    fontSize: 18,
+  statusText: {
+    fontSize: 16,
     marginBottom: 10,
-    color: '#333',
+  },
+  stepCount: {
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '40%',
   },
 });
