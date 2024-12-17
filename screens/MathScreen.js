@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useTheme, TextInput, Text } from 'react-native-paper'
 import * as Location from 'expo-location'
 
-export default function Weather() {
+export default function MathScreen() {
   const [weatherData, setWeatherData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)

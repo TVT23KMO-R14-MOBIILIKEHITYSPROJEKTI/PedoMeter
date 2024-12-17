@@ -7,7 +7,7 @@ import currencyapi from '@everapi/currencyapi-js'
 import Dropdown from "../components/DropDown"
 
 
-export default function CurrencyCalculator() {
+export default function PedometerScreen() {
     const CURRENCY_API_KEY = process.env.EXPO_PUBLIC_CURRENCY_API_KEY
 
     const theme = useTheme()

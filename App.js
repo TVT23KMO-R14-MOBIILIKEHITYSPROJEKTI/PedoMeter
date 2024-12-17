@@ -5,8 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Provider as PaperProvider, MD3LightTheme, MD3DarkTheme } from 'react-native-paper'
 import useTheme from './hooks/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import WeatherScreen from './screens/WeatherScreen'
-import CurrencyScreen from './screens/CurrencyScreen'
+import MathScreen from './screens/MathScreen'
+import PedometerScreen from './screens/PedometerScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ListScreen from './screens/ListScreen'
 import ItemScreen from './screens/ItemScreen'
@@ -85,7 +85,7 @@ export default function App() {
         {logged ? (
           <NavigationContainer theme={theme}>
             <Tab.Navigator
-              initialRouteName="List"
+              initialRouteName="Pedometer"
               screenOptions={({ route }) => ({
                 headerStyle: {
                   backgroundColor: theme.colors.secondaryContainer,
@@ -102,17 +102,14 @@ export default function App() {
                 tabBarIcon: ({ color, size }) => {
                   let iconName
                   switch (route.name) {
-                    case 'Weather':
-                      iconName = 'weather-cloudy'
+                    case 'Pedometer':
+                      iconName = 'shoe-print'
                       break
-                    case 'Currency':
-                      iconName = 'currency-eur'
+                    case 'Math':
+                      iconName = 'calculator'
                       break
                     case 'Settings':
                       iconName = 'cog'
-                      break
-                    case 'List':
-                      iconName = 'format-list-bulleted'
                       break
                     default:
                       iconName = 'question'
@@ -121,9 +118,8 @@ export default function App() {
                 },
               })}
             >
-              <Tab.Screen name="List" options={{ headerShown: false }} component={ListStack} />
-              <Tab.Screen name="Currency" component={CurrencyScreen} />
-              <Tab.Screen name="Weather" component={WeatherScreen} />
+              <Tab.Screen name="Pedometer" component={PedometerScreen} />
+              <Tab.Screen name="Math" component={MathScreen} />
               <Tab.Screen name="Settings">
               {(props) => (
                 <SettingsStack
