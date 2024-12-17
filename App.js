@@ -82,7 +82,6 @@ export default function App() {
           backgroundColor={theme.colors.secondaryContainer}
         />
         <SafeAreaView style={{ flex: 1 }}>
-        {logged ? (
           <NavigationContainer theme={theme}>
             <Tab.Navigator
               initialRouteName="Pedometer"
@@ -131,9 +130,6 @@ export default function App() {
             </Tab.Screen>
             </Tab.Navigator>
           </NavigationContainer>
-        ) : (
-          <CheckCredentials setLogged={setLogged} />
-        )}
         </SafeAreaView>
       </PaperProvider>
     </SafeAreaProvider>
